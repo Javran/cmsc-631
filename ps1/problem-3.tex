@@ -1,0 +1,70 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{indentfirst}
+\usepackage{bussproofs}
+\usepackage{minted}
+\usepackage{graphicx}
+\usepackage{titling}
+
+\title{Haskell is my favorite programming language}
+\author{Javran Cheng javran.c@gmail.com}
+\date{}
+\setlength{\droptitle}{-1in}
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\textbf{Haskell has an expressive syntax}
+Haskell comes with expressive syntaxs to achieve
+pattern matching and list comprehension, [\ref{lst:fib-and-lh}]
+which saves many lines of code but preserves the readability.
+
+\begin{listing}
+\begin{minted}[mathescape]{haskell}
+-- pattern matching: Fibonacci numbers
+fib 0 = 0
+fib 1 = 1
+fib n = fib (n-1) + fib (n-2)
+
+-- list comprehension: all Pythagorean triples under 10
+[(a,b,c) | a <- [1..10] , b <- [1..10] , c <- [1..10]
+         , a <= b , b <= c, a * a + b * b == c * c]
+-- result: [(3,4,5),(6,8,10)]
+\end{minted}
+\caption{Example of pattern matching and list comprehension}
+\label{lst:fib-and-lh}
+\end{listing}
+
+\textbf{Haskell has a strong and static type system}
+Haskell's type system is strong. In general there is no
+way of forcing type conversion in Haskell,
+thus the compiler will complain if you are doing something improper
+(e.g. trying to use integers as strings). 
+Moreover, Haskell is equipped with static typing, which is smart enough to
+infer types of expressions for you.
+Thanks to this type system, one can even tell what a function is doing
+by looking at its name and its type signature. Take
+\texttt{filter :: (a -> Bool) -> [a] -> [a] }
+as an example, it says ``
+give me a predicate (of type \texttt{a -> Bool}) and a list of elements
+(of type \texttt{a}), I will return a list of elements that meets the predicate.
+''.
+
+\textbf{Haskell enables explicit control on side effects}
+In many other languages, side effects can be created everywhere
+by doing I/O or mutate global variables, which make some procedures
+error-prone and hard to reason.
+By introducing the concept of monads, Haskell models side effects using
+its type system so that a value are tied to the side effect it causes.
+Therefore we have controls over side effects and
+functions are guaranteed to produce the same result
+as long as they are called with exactly the same arguments,
+which is good for unit testing and debugging.
+
+% talk about functional programmings stuffs?
+% (use higher order functions, monads)
+
+\end{document}
