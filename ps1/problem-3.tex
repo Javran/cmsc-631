@@ -2,6 +2,7 @@
 \usepackage[margin=1.5in]{geometry}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{amssymb}
 \usepackage{indentfirst}
 \usepackage{bussproofs}
 \usepackage{minted}
@@ -9,15 +10,15 @@
 \usepackage{titling}
 
 \title{Haskell is my favorite programming language}
-\author{Javran Cheng javran.c@gmail.com}
+\author{Javran Cheng}
 \date{}
-\setlength{\droptitle}{-1in}
+\setlength{\droptitle}{-0.8in}
 \begin{document}
 
 \maketitle
 \thispagestyle{empty}
 
-\textbf{Haskell has an expressive syntax}
+\paragraph{Haskell has an expressive syntax}
 Haskell comes with expressive syntaxs to achieve
 pattern matching and list comprehension, [\ref{lst:fib-and-lh}]
 which saves many lines of code but preserves the readability.
@@ -29,7 +30,7 @@ fib 0 = 0
 fib 1 = 1
 fib n = fib (n-1) + fib (n-2)
 
--- list comprehension: all Pythagorean triples under 10
+-- list comprehension: all Pythagorean triples $\in \mathbb{Z}_{>0}^3$
 [(a,b,c) | a <- [1..10] , b <- [1..10] , c <- [1..10]
          , a <= b , b <= c, a * a + b * b == c * c]
 -- result: [(3,4,5),(6,8,10)]
@@ -38,33 +39,39 @@ fib n = fib (n-1) + fib (n-2)
 \label{lst:fib-and-lh}
 \end{listing}
 
-\textbf{Haskell has a strong and static type system}
-Haskell's type system is strong. In general there is no
-way of forcing type conversion in Haskell,
+\paragraph{Haskell has a strong and static type system}
+Haskell's type system is strong. In general the type of an operator
+and its operands are required to be exactly matched and 
+there is no way of forcing type conversion in Haskell,
 thus the compiler will complain if you are doing something improper
 (e.g. trying to use integers as strings). 
-Moreover, Haskell is equipped with static typing, which is smart enough to
-infer types of expressions for you.
-Thanks to this type system, one can even tell what a function is doing
-by looking at its name and its type signature. Take
+Moreover, Haskell is equipped with static typing, and therefore 
+is capable of type inference.
+Suppose you are writing a function \texttt{f} to sum up a list of integers,
+you can simply write \texttt{f = foldl' (+) 0}, which is enough for Haskell
+to work out \texttt{f}'s signature:\texttt{[Integer] -> Integer}.
+One can in addition gain some intuition about
+what a function is doing
+by looking at its name and type signature. Take
 \texttt{filter :: (a -> Bool) -> [a] -> [a] }
-as an example, it says ``
-give me a predicate (of type \texttt{a -> Bool}) and a list of elements
-(of type \texttt{a}), I will return a list of elements that meets the predicate.
-''.
+as an example, we can tell from the type signature that
+a predicate and a list is requied, and we will get a list of the 
+same type in return. By looking at its name, we can further tell 
+that the function should work like a ``filter''
+using the predicate given as a guide.
 
-\textbf{Haskell enables explicit control on side effects}
+\paragraph{Haskell enables explicit control on side effects}
 In many other languages, side effects can be created everywhere
 by doing I/O or mutate global variables, which make some procedures
 error-prone and hard to reason.
 By introducing the concept of monads, Haskell models side effects using
 its type system so that a value are tied to the side effect it causes.
+You can for example get user input using \texttt{getLine}, and in return
+you get a value of \texttt{IO String}, and there is no way for this string
+to live without \texttt{IO}.  
 Therefore we have controls over side effects and
 functions are guaranteed to produce the same result
 as long as they are called with exactly the same arguments,
 which is good for unit testing and debugging.
-
-% talk about functional programmings stuffs?
-% (use higher order functions, monads)
 
 \end{document}
